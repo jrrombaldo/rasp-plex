@@ -6,10 +6,8 @@ services:
 language: bash
 
 script:
-#- docker run --rm --privileged multiarch/qemu-user-static:register --reset
-#- docker build -t jrromb/plex-rasp .
-#- echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
-#- docker login --username="$DOCKER_USER" --password="$DOCKER_PASS"
+- docker run --rm --privileged multiarch/qemu-user-static:register --reset
+- docker build -t jrromb/plex-rasp .
 
 
 #after_success:
