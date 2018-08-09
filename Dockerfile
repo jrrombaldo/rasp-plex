@@ -4,8 +4,7 @@ FROM raspbian/jessie:latest
 
 
 # Installing plex server
-RUN hostname -I \
- && apt-get update \
+RUN apt-get update \
  && apt-get install -y wget \
  && apt-get install vim net-tools -y \
 # && apt-get upgrade \
