@@ -8,5 +8,6 @@ language: bash
 script:
 #- docker run --rm --privileged multiarch/qemu-user-static:register --reset
 #- docker build -t jrromb/plex-rasp .
-- echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+#- echo "$DOCKER_PASSWORD" | docker login --username "$DOCKER_USERNAME" --password-stdin
+- docker login -u="$DOCKER_USER" -p="$DOCKER_PASS"
 #- docker push jrromb/plex-rasp
