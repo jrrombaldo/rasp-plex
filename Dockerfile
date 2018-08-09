@@ -1,5 +1,5 @@
-#FROM raspbian/jessie:latest
-FROM resin/rpi-raspbian
+FROM raspbian/jessie:latest
+#FROM resin/rpi-raspbian
 
 
 
