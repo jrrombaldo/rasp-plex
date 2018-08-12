@@ -3,8 +3,8 @@ FROM raspbian/jessie:latest
 
 
 
-RUN apt-get update -y \
-  && apt-get upgrade -y
+RUN apt-get update -y 
+#   && apt-get upgrade -y
 
 # Installing plex server
 RUN apt-get install -y wget \
