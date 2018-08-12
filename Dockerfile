@@ -6,7 +6,7 @@ FROM raspbian/jessie:latest
 # Installing plex server
 RUN apt-get update \
  && apt-get install -y wget \
- && apt-get install vim net-tools -y \
+# && apt-get install vim net-tools -y \
 # && apt-get upgrade \
  && apt-get install ca-certificates -y \
  && apt-get install apt-transport-https  -y \
@@ -17,7 +17,10 @@ RUN apt-get update \
  && echo 'plex installed'
 
 
-#COPY plexmediaserver /etc/default/plexmediaserver
+RUN apt-get -qq -y autoclean \
+ && apt-get -qq -y autoremove \
+ && apt-get -qq -y clean
+
 
 
 
