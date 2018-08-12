@@ -10,7 +10,7 @@ to install this container, replace the following variables and run the container
 ```
 export dir_confg="/tmp/conf"
 export dir_data="/tmp/data"
-export host_name="plex_rasp"
+export host_name="plex-rasp"
 
 
 docker run -itd \
