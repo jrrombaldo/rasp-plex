@@ -3,11 +3,13 @@ FROM raspbian/jessie:latest
 
 
 
-RUN apt-get update -y 
+# RUN apt-get update -y 
 #   && apt-get upgrade -y
 
 # Installing plex server
-RUN apt-get install -y wget \
+RUN 
+ && apt-get update -y \
+ && apt-get install -y wget \
 # && apt-get install vim net-tools -y \
 # && apt-get upgrade \
  && apt-get install ca-certificates -y \
