@@ -11,5 +11,5 @@ script:
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-  - docker push jrromb/plex-rasp
+  - docker push jrromb/rasp-plex
   - docker logout
