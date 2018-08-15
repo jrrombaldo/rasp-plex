@@ -7,8 +7,7 @@ FROM raspbian/jessie:latest
 #   && apt-get upgrade -y
 
 # Installing plex server
-RUN 
- apt-get update -y \
+RUN apt-get update -y \
  && apt-get install -y wget \
 # && apt-get install vim net-tools -y \
 # && apt-get upgrade \
