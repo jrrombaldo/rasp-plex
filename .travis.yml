@@ -8,8 +8,6 @@ language: bash
 script:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   - docker build -t jrromb/rasp-plex .
-
-after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   - docker push jrromb/rasp-plex
   - docker logout
