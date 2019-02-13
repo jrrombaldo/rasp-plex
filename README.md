@@ -3,6 +3,7 @@
 
 
 [![Build Status](https://travis-ci.org/jrrombaldo/rasp-plex.svg?branch=master)](https://travis-ci.org/jrrombaldo/rasp-plex)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjrrombaldo%2Frasp-plex.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjrrombaldo%2Frasp-plex?ref=badge_shield)
 
 
 to install this container, replace the following variables and run the container
@@ -22,3 +23,7 @@ docker run -itd \
   --restart unless-stopped \
   jrromb/plex-rasp:latest
 ```
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjrrombaldo%2Frasp-plex.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjrrombaldo%2Frasp-plex?ref=badge_large)
