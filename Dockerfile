@@ -10,7 +10,7 @@ FROM raspbian/jessie:latest
 RUN apt-get update -y \
  && apt-get install -y wget \
 # && apt-get install vim net-tools -y \
- && apt-get upgrade \
+ && apt-get upgrade -y \
  && apt-get install ca-certificates -y \
  && apt-get install apt-transport-https  -y \
  && wget -O - https://dev2day.de/pms/dev2day-pms.gpg.key | apt-key add - \
