@@ -13,29 +13,26 @@ RUN \
     && curl https://downloads.plex.tv/plex-keys/PlexSign.key | apt-key add - \
     && echo deb https://downloads.plex.tv/repo/deb public main | tee /etc/apt/sources.list.d/plexmediaserver.list \
     && apt-get update \
-    && apt -y --force-yes -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew install plexmediaserver
+    && apt -y --force-yes -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew install plexmediaserver \
 
 # Fetch and extract S6 overlay
- RUN \
     && curl -J -L -o /tmp/s6-overlay-amd64.tar.gz https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-amd64.tar.gz \
-    && tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
-
+    && tar xzf /tmp/s6-overlay-amd64.tar.gz -C / \
 
 # Add directories and user
- RUN  \
-    mkdir -p \
+    && mkdir -p \
       /config \
       /transcode \
       /data \
-    && \useradd -U -d /config -s /bin/false plex && \
-    usermod -G users plex && \
+    && \useradd -U -d /config -s /bin/false plex \
+    && usermod -G users plex \
 
 # Cleanup
-    apt-get -y autoremove && \
-    apt-get -y clean && \
-    rm -rf /var/lib/apt/lists/* && \
-    rm -rf /tmp/* && \
-    rm -rf /var/tmp/*
+    && apt-get -y autoremove \
+    && apt-get -y clean \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* \
+    && rm -rf /var/tmp/*
 
 EXPOSE 32400/tcp 3005/tcp 8324/tcp 32469/tcp 1900/udp 32410/udp 32412/udp 32413/udp 32414/udp
 VOLUME /config /transcode
