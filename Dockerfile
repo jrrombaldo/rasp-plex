@@ -24,8 +24,8 @@ RUN \
       /config \
       /transcode \
       /data \
-    && \useradd -U -d /config -s /bin/false plex \
-    && usermod -G users plex \
+    # && \useradd -U -d /config -s /bin/false plex \
+    # && usermod -G users plex \
 
 # Cleanup
     && apt-get -y autoremove \
