@@ -1,86 +1,55 @@
 FROM raspbian/jessie:latest
-#FROM resin/rpi-raspbian
 
 
-
-# RUN apt-get update -y 
-#   && apt-get upgrade -y
-
-# Installing plex server
-RUN apt update -y \
- && apt upgrade -y \
- && apt install -y curl apt-transport-https  -y \
-#  && wget -O - https://dev2day.de/pms/dev2day-pms.gpg.key | apt-key add - \
-#  && echo "deb https://dev2day.de/pms/ jessie main" | tee /etc/apt/sources.list.d/pms.list \
- && curl https://downloads.plex.tv/plex-keys/PlexSign.key | apt-key add - \
- && echo deb https://downloads.plex.tv/repo/deb public main | tee /etc/apt/sources.list.d/plexmediaserver.list \
- && apt update \
- && apt -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew install  plexmediaserver -y \
- && echo 'plex installed'
+ARG S6_OVERLAY_VERSION=v1.17.2.0
+ARG DEBIAN_FRONTEND="noninteractive"
+ENV TERM="xterm" LANG="C.UTF-8" LC_ALL="C.UTF-8"
 
 
-RUN apt -qq -y autoclean \
- && apt -qq -y autoremove \
- && apt -qq -y clean
+RUN \
+# Update and get dependencies
+    apt-get update \
+    && apt install curl apt-transport-https -y \
+    && curl https://downloads.plex.tv/plex-keys/PlexSign.key | apt-key add - \
+    && echo deb https://downloads.plex.tv/repo/deb public main | tee /etc/apt/sources.list.d/plexmediaserver.list \
+    && apt-get update \
+    && apt -y --force-yes -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confnew install plexmediaserver
+
+# Fetch and extract S6 overlay
+ RUN \
+    && curl -J -L -o /tmp/s6-overlay-amd64.tar.gz https://github.com/just-containers/s6-overlay/releases/download/${S6_OVERLAY_VERSION}/s6-overlay-amd64.tar.gz \
+    && tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 
 
+# Add directories and user
+ RUN  \
+    mkdir -p \
+      /config \
+      /transcode \
+      /data \
+    && \useradd -U -d /config -s /bin/false plex && \
+    usermod -G users plex && \
 
+# Cleanup
+    apt-get -y autoremove && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /tmp/* && \
+    rm -rf /var/tmp/*
 
-# Setup volumes
-#  - /config holds the server settings
-#  - /data is where media should be mounted
-VOLUME ["/config", "/data"]
+EXPOSE 32400/tcp 3005/tcp 8324/tcp 32469/tcp 1900/udp 32410/udp 32412/udp 32413/udp 32414/udp
+VOLUME /config /transcode
 
-# Plex config environment vars
-ENV HOME=/config
+ENV CHANGE_CONFIG_DIR_OWNERSHIP="true" \
+    HOME="/config"
 
+# ARG TAG=beta
+# ARG URL=
 
-#TCP: 32400 (for access to the Plex Media Server) [required]
-#UDP: 1900 (for access to the Plex DLNA Server)
-#TCP: 3005 (for controlling Plex Home Theater via Plex Companion)
-#UDP: 5353 (for older Bonjour/Avahi network discovery)
-#TCP: 8324 (for controlling Plex for Roku via Plex Companion)
-#UDP: 32410, 32412, 32413, 32414 (for current GDM network discovery)
-#TCP: 32469 (for access to the Plex DLNA Server)
+COPY healthcheck.sh/ /usr/local/bin/healthcheck.sh
 
+# RUN \
+# # Save version and install
+#     /installBinary.sh
 
-#RUN mkdir -p $HOME/Library/Application\ Support/Plex\ Media\ Server/Logs/ \
-# && touch $HOME/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log
-##RUN ln -sf /dev/stdout $HOME/Library/Application\ Support/Plex\ Media\ Server/Logs/.log
-#RUN ln -sf /dev/stdout $HOME/Library/Application\ Support/Plex\ Media\ Server/Logs/Plex\ Media\ Server.log
-##	&& ln -sf /dev/stderr /var/log/nginx/error.log
-#
-#
-#
-## Plex server port
-EXPOSE 32400
-EXPOSE 1900/udp
-EXPOSE 3005
-EXPOSE 5353/udp
-EXPOSE 8324
-EXPOSE 32410/udp
-EXPOSE 32412/udp
-EXPOSE 32413/udp
-EXPOSE 32414/udp
-EXPOSE 32469
-
-
-
-#change these parameters in /etc/default/plexmediaserver
-ENV PLEX_MEDIA_SERVER_MAX_PLUGIN_PROCS=6
-ENV PLEX_MEDIA_SERVER_HOME=/usr/lib/plexmediaserver
-ENV PLEX_MEDIA_SERVER_MAX_STACK_SIZE=3000
-ENV PLEX_MEDIA_SERVER_TMPDIR=/tmp
-ENV PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR="${HOME}/Library/Application Support"
-
-
-
-
-#WORKDIR "/usr/sbin"
-#CMD ["bash"]
-
-COPY *.sh /
-RUN chmod +x /*.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
-CMD ["run"]
+HEALTHCHECK --interval=5s --timeout=2s --retries=20 CMD /usr/local/bin/healthcheck.sh || exit 1
