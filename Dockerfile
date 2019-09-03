@@ -9,13 +9,11 @@ FROM raspbian/jessie:latest
 # Installing plex server
 RUN apt-get update -y \
  && apt-get upgrade -y \
- && apt-get install -y curl \
- && apt-get upgrade -y \
- && apt-get install apt-transport-https  -y \
+ && apt-get install -y curl apt-transport-https  -y \
 #  && wget -O - https://dev2day.de/pms/dev2day-pms.gpg.key | apt-key add - \
 #  && echo "deb https://dev2day.de/pms/ jessie main" | tee /etc/apt/sources.list.d/pms.list \
- && curl https://downloads.plex.tv/plex-keys/PlexSign.key | sudo apt-key add - \
- && echo deb https://downloads.plex.tv/repo/deb public main | sudo tee /etc/apt/sources.list.d/plexmediaserver.list \
+ && curl https://downloads.plex.tv/plex-keys/PlexSign.key | apt-key add - \
+ && echo deb https://downloads.plex.tv/repo/deb public main | tee /etc/apt/sources.list.d/plexmediaserver.list \
  && apt-get update \
  && apt-get install  plexmediaserver -y \
  && echo 'plex installed'
