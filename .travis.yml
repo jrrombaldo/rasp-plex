@@ -1,13 +1,41 @@
+dist: bionic
 sudo: required
+addons:
+  apt:
+    packages:
+    - wget
+    - tar
+    - rpm # required for trivy
 
 services:
   - docker
 
 language: bash
 
-script:
-  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-  - docker build -t jrromb/rasp-plex .
-  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-  - docker push jrromb/rasp-plex
-  - docker logout
+env:
+  global:
+    TRIVY_CACHE="/tmp/trivy_cache"
+    IMG_NAME="jrromb/rasp-plex"
+
+jobs:
+  include:
+    - script:
+      - mkdir -p $TRIVY_CACHE
+      - docker pull aquasec/trivy
+      - docker run --rm -v $TRIVY_CACHE:/root/.cache/ aquasec/trivy --refresh
+    - script:
+      - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+      - docker build -t $IMG_NAME .
+    - stage: test & deploy
+      script:
+      - docker images
+      - ls /tmp/trivy_cache
+      - docker run --rm -v $TRIVY_CACHE:/root/.cache/ aquasec/trivy $IMG_NAME
+      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+      - docker push $IMG_NAME
+      - docker logout
+
+    
+    
+
+
