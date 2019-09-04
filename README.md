@@ -65,7 +65,7 @@ curl -sSL https://get.docker.com | sh
 usermod -a -G docker <user_name>
 ```
 
-# Appreciation
+## Appreciation
 This is provided as free for everyone basis; however, the maintainer still having to pay for beers and tattoos. Any support is much appreciated.
 
 [![](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=e-junior%40live.com&currency_code=GBP&source=url)
