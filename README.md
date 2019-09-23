@@ -8,7 +8,7 @@
 Rasp-Plex delivers a Plexmedia Media Server (PMS) Docker container ready to run on Raspberry PI. This a fork of the [Offical PMS docker images](https://github.com/plexinc/pms-docker), to add Raspberry support.
 
 
-# Run PMS as a container 
+# Run Plex as a container 
 Here is the command to run this container
 
 ``` bash
