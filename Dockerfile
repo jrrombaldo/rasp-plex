@@ -5,6 +5,8 @@ ARG S6_OVERLAY_VERSION=v1.17.2.0
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV TERM="xterm" LANG="C.UTF-8" LC_ALL="C.UTF-8"
 
+ENTRYPOINT ["/init"]
+
 
 RUN \
 # Update and get dependencies
