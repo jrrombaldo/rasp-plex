@@ -5,7 +5,7 @@ ARG S6_OVERLAY_VERSION=v1.17.2.0
 ARG DEBIAN_FRONTEND="noninteractive"
 ENV TERM="xterm" LANG="C.UTF-8" LC_ALL="C.UTF-8"
 
-ENTRYPOINT ["/init"]
+COPY root/ /
 
 
 RUN \
@@ -42,13 +42,11 @@ VOLUME /config /transcode
 ENV CHANGE_CONFIG_DIR_OWNERSHIP="true" \
     HOME="/config"
 
-# ARG TAG=beta
-# ARG URL=
 
-COPY healthcheck.sh/ /usr/local/bin/healthcheck.sh
 
 # RUN \
 # # Save version and install
 #     /installBinary.sh
 
+ENTRYPOINT ["/init"]
 HEALTHCHECK --interval=5s --timeout=2s --retries=20 CMD /usr/local/bin/healthcheck.sh || exit 1
