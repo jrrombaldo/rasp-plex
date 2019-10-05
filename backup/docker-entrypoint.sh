@@ -9,17 +9,17 @@ run() {
     then
         mkdir -p "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR"
 
-#        mkdir -p "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs"
-#
-#        touch "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex DLNA Server.log"
-#        touch "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex DLNA Server Neptune.log"
-#        touch "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex Media Server.log"
-#        touch "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex Tuner Service.log"
-#
-#        ln -sf /dev/stdout "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex DLNA Server.log"
-#        ln -sf /dev/stdout "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex DLNA Server Neptune.log"
-#        ln -sf /dev/stdout "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex Media Server.log"
-#        ln -sf /dev/stdout "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex Tuner Service.log"
+        mkdir -p "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs"
+
+        touch "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex DLNA Server.log"
+        touch "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex DLNA Server Neptune.log"
+        touch "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex Media Server.log"
+        touch "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex Tuner Service.log"
+
+        ln -sf /dev/stdout "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex DLNA Server.log"
+        ln -sf /dev/stdout "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex DLNA Server Neptune.log"
+        ln -sf /dev/stdout "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex Media Server.log"
+        ln -sf /dev/stdout "$PLEX_MEDIA_SERVER_APPLICATION_SUPPORT_DIR/Plex Media Server/Logs/Plex Tuner Service.log"
 
 
         if [ ! $? -eq 0 ]
