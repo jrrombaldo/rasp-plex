@@ -15,14 +15,5 @@ jobs:
     - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     - docker push $IMG_NAME
     - docker logout
-    - docker run --rm -v $TRIVY_CACHE:/root/.cache/ aquasec/trivy --exit-code 0  --no-progress
-      -f json  $IMG_NAME
-  - after_success:
     - curl -X POST https://hooks.microbadger.com/images/jrromb/rasp-plex/${MICROBADGER_TOKEN}
-
-
-
-
-
- export MICROBADGER_TOKEN=-Fu79rOaUuvIh7OHLrG9GoZ5_Ew=
-
+    - docker run --rm -v $TRIVY_CACHE:/root/.cache/ aquasec/trivy --exit-code 0  --no-progress -f json  $IMG_NAME
