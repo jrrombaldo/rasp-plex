@@ -1,27 +1,28 @@
 dist: bionic
 sudo: required
-
 services:
-  - docker
-
+- docker
 language: bash
-
 env:
   global:
-    TRIVY_CACHE="/tmp/trivy_cache"
-    IMG_NAME="jrromb/rasp-plex"
-
+  - TRIVY_CACHE="/tmp/trivy_cache" IMG_NAME="jrromb/rasp-plex"
+  - secure: JJbnN/00JsP35wWWE8QlbsMOn+belvRYwAqTMXuhlrNilQkssoRzzJADP74KcTJX6ue4wlZ4ffoapty2Z3F9aeylX2GtEk/N+wRTTcE0/BGWh8sPZaNHimorzllkpUf/yZqttI2hcJbE9B88wSQFZnnv6Eua1Y3oYYBT0fJugiSiVXE7qMrWbdPwQ6dpH+EGYjPfRAOCNspjudBwcgQwJx47C5Febixkjn6+oDiTjOZXQtkjX12E17HjgFGtmlNlo0UA8vXkgQIgmuYvAu9SqpiqsTnxH1Lhy6M8Jh0QqlHeNgDjeDylFKR+coNKCKVGgr/EJ/1NJCZJFUada8wDit6azJypbfOutZZal8ibltZ9ImHW8Ih9WWu+nELxWGfnbuW6/ImTceTz7/tPNNRCQVqQ1U9ABjj3Hbq6fvrQKY5WYrfg1GpmR6pdwpT1KJtIeLyTifLLskBF9n5lUmpue0mHbkbaV9MMNIo+nPr4scqmxQoO8k/Kz9t6+y1B4lP33KxtKkx+IvGpqKZ9zzP9DuzvehDBZRIJBBIInGB9hQlln0+HOwoeGFf9Kk3wjI3V+AQNVtJq5wC5YfpgfiY6o+8nyy0EeycgJ4B9jjqVgkiyxDzd9oOepwXK0fmHgZN21uzZeOxSUxAjVp2KhawN4B7sa7GBsitRsTNs0UPUZak=
 jobs:
   include:
-    - script:
-      - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-      - docker build -t $IMG_NAME .
-      - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-      - docker push $IMG_NAME
-      - docker logout
-      - docker run --rm -v $TRIVY_CACHE:/root/.cache/ aquasec/trivy --exit-code 0  --no-progress -f json  $IMG_NAME
+  - script:
+    - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+    - docker build -t $IMG_NAME .
+    - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    - docker push $IMG_NAME
+    - docker logout
+    - docker run --rm -v $TRIVY_CACHE:/root/.cache/ aquasec/trivy --exit-code 0  --no-progress
+      -f json  $IMG_NAME
+  - after_success:
+    - curl -X POST https://hooks.microbadger.com/images/jrromb/rasp-plex/${MICROBADGER_TOKEN}
 
-    
-    
 
+
+
+
+ export MICROBADGER_TOKEN=-Fu79rOaUuvIh7OHLrG9GoZ5_Ew=
 
